@@ -1,0 +1,20 @@
+namespace: qunacoin
+  
+env:
+  QUNACOIN_DB_URI: "mongodb://db:27017/qunacoin"
+  
+services:
+  db:
+    image: mongo
+    ports:
+      - 27017:27017
+
+  qunacoin-node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      QUNACOIN_DB_URI: "${QUNACOIN_DB_URI}" 
+    ports:
+     - 8545:8545
+    command: ["python", "scripts/node.py"]
